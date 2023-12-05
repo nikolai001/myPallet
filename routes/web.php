@@ -1,5 +1,5 @@
 <?php
-
+use App\Enums\TypeEnum;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('create-unit/{type}',function(TypeEnum $type){
+    return $type->value;
 });
