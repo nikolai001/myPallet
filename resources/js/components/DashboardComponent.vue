@@ -1,21 +1,47 @@
 <template>
     <div class="dashboard">
         <div class="dashboard__tab">
-            <button class="tab__button" :class="'tab__button--active'"><i class="material-symbols-outlined">communities</i>All</button>
-            <button class="tab__button"><i class="material-symbols-outlined">local_shipping</i>Trucks</button>
-            <button class="tab__button"><i class="material-symbols-outlined">rv_hookup</i>Trailers</button>
+            <button class="tab__button" :class="{ 'tab__button--active': currentSelection === 'All' }" @click="changeView('All')"><i class="material-symbols-outlined">communities</i>All</button>
+            <button class="tab__button" :class="{ 'tab__button--active': currentSelection === 'Trucks' }" @click="changeView('Trucks')"><i class="material-symbols-outlined">local_shipping</i>Trucks</button>
+            <button class="tab__button" :class="{ 'tab__button--active': currentSelection === 'Trailers' }" @click="changeView('Trailers')"><i class="material-symbols-outlined">rv_hookup</i>Trailers</button>
         </div>
-        <li class="dashboard__item" v-for="unit in units" :key="unit.id">{{unit.Name}}</li>
+        <li class="dashboard__item" v-for="unit in unitSelection" :key="unit.id">{{unit.Name}}</li>
     </div>
 </template>
 
 <script>
     export default {
-        mounted() {
-            console.log(123)
+
+        data () {
+            return {
+                currentSelection : 'All',
+                unitSelection: []
+            }
         },
+
+        methods : {
+            changeView(value) {
+                this.currentSelection = value
+                this.filterUnit(value)
+            },
+            filterUnit (value) {
+                if (value == 'Trucks') {
+                    this.unitSelection = this.units.filter(unit => unit.Type === "Truck");
+                }
+                else if (value == 'Trailers') {
+                    this.unitSelection = this.units.filter(unit => unit.Type === "Trailer");
+                }else {
+                    this.unitSelection = this.units
+                }
+            },
+        },
+
         props : {
-            units: []
+            units: Array
+        },
+
+        mounted () {
+            this.unitSelection = this.units
         }
     }
 </script>
@@ -23,10 +49,11 @@
 <style lang="scss" scoped>
     @import 'resources/sass/_colors.scss'; 
     .dashboard {
+        font-family: 'Roboto';
+        font-weight: 300;
         margin-top: 25px;
         display: grid;
         grid-template-columns: .25fr 1fr 1fr;
-        grid-template-rows: 30px auto;
         width: 90%;
         background: $white;
         box-sizing: content-box;
@@ -35,13 +62,21 @@
         border-radius: 16px;
         overflow-x: hidden;
         overflow-y: scroll;
+        max-width: 900px;
         &__item {
            text-decoration: none;
            list-style: none; 
+           display: block;
+           width: 90%;
+           grid-column: 2/-1;
+           margin: 0 auto;
+           height: 35px;
+           display: flex;
+           align-items: center;
         }
         &__tab {
             grid-column: 1/2;
-            grid-row:1 / span all;
+            grid-row:1 / 100;
             display: flex;
             flex-direction: column;
             width: 100%;
@@ -50,7 +85,7 @@
             box-sizing: border-box;
             .tab__button {
                 width: 100%;
-                aspect-ratio: 3/1;
+                height: 35px;
                 padding: 0;
                 border: none;
                 margin: 0 auto;
@@ -60,11 +95,14 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-evenly;
+                font-family: 'Roboto';
+                font-weight: 500;
                 &--active {
                     background-color: rgba($color: $green, $alpha: .3);
                     border-right: $green solid 5px;
                     box-sizing: content-box;
                     color: $green;
+                    font-style: italic;
                 }
             }
         }
