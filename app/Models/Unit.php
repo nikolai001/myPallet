@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\TypeEnum;
 
 class Unit extends Model
 {
@@ -12,6 +13,6 @@ class Unit extends Model
     protected $fillable = ['name'];
 
     protected $casts = [
-        'type' => TypeEnum::class 
+        'type' => TypeEnum::class
     ];
 }

@@ -1,10 +1,10 @@
 <template>
     <div class="modal">
         <form class="modal__form" @submit.prevent>
-            <input class="form__input" placeholder="Name" v-model="unit.Name" />
-            <select class="form__select" v-model="unit.Type">
-                <option class="select__option" value="Truck">Truck</option>
-                <option class="select__option" value="Trailer">Trailer</option>
+            <input class="form__input" placeholder="Name" v-model="unit.name" />
+            <select class="form__select" v-model="unit.type">
+                <option class="select__option" value="truck">Truck</option>
+                <option class="select__option" value="trailer">Trailer</option>
             </select>
             <div class="form__cta-buttons">
                 <button class="cta-buttons__button cta-buttons__button--cancel" type="button" @click="cancel()">Cancel</button>
@@ -19,8 +19,8 @@ export default {
     data () {
         return {
             unit : {
-                Name : '',
-                Type: '',
+                name : '',
+                type: '',
             }
         }
     },
@@ -28,11 +28,11 @@ export default {
     methods : {
         cancel () {
             this.$emit('close')
-            this.unit.Name = ''
-            this.unit.Type = ''
+            this.unit.name = ''
+            this.unit.type = ''
         },
         create () {
-            if (this.unit.Name.length > 1 & (this.unit.Type == 'Truck' || this.unit.Type == 'Trailer')) {
+            if (this.unit.name.length > 1 & (this.unit.type == 'truck' || this.unit.type == 'trailer')) {
                 console.log('Valid entry')
             }
         }
