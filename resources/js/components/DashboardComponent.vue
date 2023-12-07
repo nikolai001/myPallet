@@ -1,47 +1,57 @@
 <template>
     <div class="dashboard">
+        <searchComponent :selection = filteredUnits @returnedSearch="searchData" />
         <div class="dashboard__tab">
             <button class="tab__button" :class="{ 'tab__button--active': currentSelection === 'All' }" @click="changeView('All')"><i class="material-symbols-outlined">communities</i>All</button>
             <button class="tab__button" :class="{ 'tab__button--active': currentSelection === 'Trucks' }" @click="changeView('Trucks')"><i class="material-symbols-outlined">local_shipping</i>Trucks</button>
             <button class="tab__button" :class="{ 'tab__button--active': currentSelection === 'Trailers' }" @click="changeView('Trailers')"><i class="material-symbols-outlined">rv_hookup</i>Trailers</button>
         </div>
-        <li class="dashboard__item" v-for="unit in unitSelection" :key="unit.id">{{unit.Name}}</li>
+        <li class="dashboard__item" v-for="unit in searchResults.length > 0 ? searchResults : filteredUnits" :key="unit.id">
+            {{ unit.Name }}
+        </li>
     </div>
 </template>
 
 <script>
+import searchComponent from './SearchComponent.vue'
     export default {
 
         data () {
             return {
                 currentSelection : 'All',
-                unitSelection: []
+                unitSelection: [],
+                searchResults: []
             }
         },
 
         methods : {
             changeView(value) {
                 this.currentSelection = value
-                this.filterUnit(value)
             },
-            filterUnit (value) {
-                if (value == 'Trucks') {
-                    this.unitSelection = this.units.filter(unit => unit.Type === "Truck");
-                }
-                else if (value == 'Trailers') {
-                    this.unitSelection = this.units.filter(unit => unit.Type === "Trailer");
-                }else {
-                    this.unitSelection = this.units
-                }
-            },
+            searchData(data) {
+                this.searchResults = data
+            }
         },
 
         props : {
             units: Array
         },
 
-        mounted () {
-            this.unitSelection = this.units
+        components : {
+            searchComponent
+        },
+
+        computed: {
+            filteredUnits () {
+                if (this.currentSelection == 'Trucks') {
+                return this.units.filter(unit => unit.Type === "Truck");
+            }
+            else if (this.currentSelection == 'Trailers') {
+                return this.units.filter(unit => unit.Type === "Trailer");
+            }else {
+                return this.units
+            }
+            }
         }
     }
 </script>
@@ -54,6 +64,7 @@
         margin-top: 25px;
         display: grid;
         grid-template-columns: .25fr 1fr 1fr;
+        grid-template-rows: 35px auto;
         width: 90%;
         background: $white;
         box-sizing: content-box;
