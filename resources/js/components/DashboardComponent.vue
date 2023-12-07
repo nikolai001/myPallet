@@ -5,9 +5,11 @@
             <button class="tab__button" :class="{ 'tab__button--active': currentSelection === 'All' }" @click="changeView('All')"><i class="material-symbols-outlined">communities</i>All</button>
             <button class="tab__button" :class="{ 'tab__button--active': currentSelection === 'Trucks' }" @click="changeView('Trucks')"><i class="material-symbols-outlined">local_shipping</i>Trucks</button>
             <button class="tab__button" :class="{ 'tab__button--active': currentSelection === 'Trailers' }" @click="changeView('Trailers')"><i class="material-symbols-outlined">rv_hookup</i>Trailers</button>
+            <button class="tab__addUnit material-symbols-outlined" type="button">add</button>
         </div>
         <li class="dashboard__item" v-for="unit in searchResults.length > 0 ? searchResults : filteredUnits" :key="unit.id">
-            {{ unit.Name }}
+            <p>{{ unit.Name }}</p>
+            <p style="display:flex;">{{ unit.Type }}</p>
         </li>
     </div>
 </template>
@@ -74,6 +76,9 @@ import searchComponent from './SearchComponent.vue'
         overflow-x: hidden;
         overflow-y: scroll;
         max-width: 900px;
+        li:first-of-type {
+            margin-top: 10px;
+        }
         &__item {
            text-decoration: none;
            list-style: none; 
@@ -84,6 +89,14 @@ import searchComponent from './SearchComponent.vue'
            height: 35px;
            display: flex;
            align-items: center;
+           padding: 0 10px;
+           display: grid;
+           grid-template-columns: 1fr 1fr;
+           align-content: center;
+           &:hover {
+            background-color: rgba($blue,0.3);
+            border-radius: 5px;
+           }
         }
         &__tab {
             grid-column: 1/2;
@@ -94,6 +107,19 @@ import searchComponent from './SearchComponent.vue'
             border-right: 2px solid rgba($white--darker,.25);
             padding-right: 5px;
             box-sizing: border-box;
+            .tab__addUnit {
+                border-radius: 99em;
+                width: 50%;
+                max-width: 35px;
+                aspect-ratio: 1/1;
+                border: none;
+                background-color: $green;
+                color: $white;
+                position: relative;
+                top: 60%;
+                margin: 0 0 0 10px;
+                box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30); 
+            }
             .tab__button {
                 width: 100%;
                 height: 35px;
