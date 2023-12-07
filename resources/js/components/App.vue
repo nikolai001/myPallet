@@ -23,7 +23,12 @@ export default {
             {'id':8,'Name':'Unit 4','Type':'Truck'},
             {'id':9,'Name':'Unit 5','Type':'Truck'},
             {'id':10,'Name':'Unit 6','Type':'Truck'},
-            {'id':11,'Name':'Mathæo','Type':'Truck'}
+            {'id':11,'Name':'Mathæo','Type':'Truck'},
+            {'id':12,'Name':'Unit 7','Type':'Truck'},
+            {'id':13,'Name':'Unit 8','Type':'Truck'},
+            {'id':14,'Name':'Unit 9','Type':'Trailer'},
+            {'id':15,'Name':'Unit 10','Type':'Truck'},
+            {'id':16,'Name':'Unit 11','Type':'Truck'},
         ]
     }
   }

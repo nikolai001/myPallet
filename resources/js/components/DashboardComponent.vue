@@ -7,10 +7,12 @@
             <button class="tab__button" :class="{ 'tab__button--active': currentSelection === 'Trailers' }" @click="changeView('Trailers')"><i class="material-symbols-outlined">rv_hookup</i>Trailers</button>
             <button class="tab__addUnit material-symbols-outlined" type="button">add</button>
         </div>
-        <li class="dashboard__item" v-for="unit in searchResults.length > 0 ? searchResults : filteredUnits" :key="unit.id">
-            <p>{{ unit.Name }}</p>
-            <p style="display:flex;">{{ unit.Type }}</p>
-        </li>
+        <div class="dashboard__content">
+            <li class="dashboard__item" v-for="unit in searchResults.length > 0 ? searchResults : filteredUnits" :key="unit.id">
+                <p>{{ unit.Name }}</p>
+                <p>{{ unit.Type }}</p>
+            </li>
+        </div>
     </div>
 </template>
 
@@ -72,13 +74,19 @@ import searchComponent from './SearchComponent.vue'
         box-sizing: content-box;
         box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30); 
         height:50vh;
-        border-radius: 16px;
+        border-radius: 16px;;
+        max-width: 900px;
         overflow-x: hidden;
         overflow-y: scroll;
-        max-width: 900px;
-        li:first-of-type {
-            margin-top: 10px;
+        &__content {
+            display: grid;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            grid-column: 2/4;
+            grid-row: 2 / 999;
+            grid-auto-rows: 45px;
         }
+       
         &__item {
            text-decoration: none;
            list-style: none; 
@@ -100,7 +108,7 @@ import searchComponent from './SearchComponent.vue'
         }
         &__tab {
             grid-column: 1/2;
-            grid-row:1 / 100;
+            grid-row:1 / 999;
             display: flex;
             flex-direction: column;
             width: 100%;
@@ -108,16 +116,15 @@ import searchComponent from './SearchComponent.vue'
             padding-right: 5px;
             box-sizing: border-box;
             .tab__addUnit {
-                border-radius: 99em;
-                width: 50%;
-                max-width: 35px;
-                aspect-ratio: 1/1;
+                border-radius: 6px;
+                width: 90%;
+                padding: 4px 0;
                 border: none;
                 background-color: $green;
                 color: $white;
                 position: relative;
-                top: 60%;
-                margin: 0 0 0 10px;
+                margin: auto 2px 10px 0;
+                align-self: end;
                 box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.30); 
             }
             .tab__button {
