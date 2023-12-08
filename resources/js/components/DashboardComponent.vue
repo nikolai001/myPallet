@@ -4,7 +4,7 @@
 			:selection="filteredUnits"
 			@returnedSearch="searchData"
 		/>
-        <modalComponent v-show=modalState @close="modalState = false" />
+        <modalComponent v-show=modalState @close="modalState = false" @append="appendData" />
 		<div class="dashboard__tab">
 			<button
 				class="tab__button"
@@ -74,6 +74,10 @@ export default {
 		searchData(data) {
 			this.searchResults = data;
 		},
+
+        appendData (data) {
+            this.units.push(data)
+        }
 	},
 
 	props: {

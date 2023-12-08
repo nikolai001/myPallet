@@ -10,7 +10,9 @@ class Unit extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    public $timestamps = false;
+
+    protected $fillable = ['name','type'];
 
     protected $casts = [
         'type' => TypeEnum::class
