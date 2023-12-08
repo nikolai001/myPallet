@@ -1,14 +1,14 @@
 <template>
     <div class="modal">
         <form class="modal__form" @submit.prevent>
-            <input class="form__input" placeholder="Name" v-model="unit.Name" />
-            <select class="form__select" v-model="unit.Type">
-                <option class="select__option" value="Truck">Truck</option>
-                <option class="select__option" value="Trailer">Trailer</option>
+            <input class="form__input" placeholder="Name" v-model="unit.name" />
+            <select class="form__select" v-model="unit.type">
+                <option class="select__option" value="truck">truck</option>
+                <option class="select__option" value="trailer">trailer</option>
             </select>
             <div class="form__cta-buttons">
                 <button class="cta-buttons__button cta-buttons__button--cancel" type="button" @click="cancel()">Cancel</button>
-                <button class="cta-buttons__button cta-buttons__button--accept" type="button" @click="create()">Create</button>
+                <button class="cta-buttons__button cta-buttons__button--accept" :class="{'cta-buttons__button--pending' : pending }" type="button" @click="create()">Create</button>
             </div>
         </form>
     </div>
@@ -18,22 +18,34 @@
 export default {
     data () {
         return {
+            pending: false,
             unit : {
-                Name : '',
-                Type: '',
+                name : '',
+                type: '',
             }
         }
     },
 
     methods : {
         cancel () {
+            this.pending = false
             this.$emit('close')
-            this.unit.Name = ''
-            this.unit.Type = ''
+            this.unit.name = ''
+            this.unit.type = ''
         },
-        create () {
-            if (this.unit.Name.length > 1 & (this.unit.Type == 'Truck' || this.unit.Type == 'Trailer')) {
-                console.log('Valid entry')
+        async create () {
+            if (this.unit.name.length > 1 & (this.unit.type == 'truck' || this.unit.type == 'trailer') & !this.pending) {
+                this.pending = true
+                await fetch('http://localhost:8000/api/units', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(this.unit)
+                })
+                .then(response => response.json())
+                .then(data => this.$emit('append',data))
+                .then(this.cancel())
             }
         }
     }
@@ -94,6 +106,12 @@ export default {
                         background-color: $green;
                         border-radius: 6px;
                         box-shadow: $el-1;
+                    }
+                    &--pending {
+                        color: white;
+                        background-color: $white--dark;
+                        border-radius: 6px;
+                        cursor: not-allowed;
                     }
                 }
             }

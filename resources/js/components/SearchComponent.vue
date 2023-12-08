@@ -39,7 +39,7 @@ export default {
 			let filteredData = [];
 			if (this.searchInput.length >= 2) {
 				filteredData = this.selection.filter((unit) => {
-					return unit.Name.toLowerCase().includes(
+					return unit.name.toLowerCase().includes(
 						this.searchInput.toLowerCase()
 					);
 				});

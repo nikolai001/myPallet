@@ -12,7 +12,7 @@ class UnitController extends Controller
      */
     public function index()
     {
-        //
+        return Unit::all();
     }
 
     /**
@@ -28,7 +28,15 @@ class UnitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'type' => 'required|string|in:truck,trailer',
+        ]);
+
+        $unit = Unit::create($validatedData);
+
+        return response()->json($unit, 201); 
     }
 
     /**

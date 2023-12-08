@@ -4,30 +4,30 @@
 			:selection="filteredUnits"
 			@returnedSearch="searchData"
 		/>
-        <modalComponent v-show=modalState @close="modalState = false" />
+        <modalComponent v-show=modalState @close="modalState = false" @append="appendData" />
 		<div class="dashboard__tab">
 			<button
 				class="tab__button"
-				:class="{ 'tab__button--active': currentSelection === 'All' }"
-				@click="changeView('All')"
+				:class="{ 'tab__button--active': currentSelection === 'all' }"
+				@click="changeView('all')"
 			>
 				<i class="material-symbols-outlined">communities</i>All
 			</button>
 			<button
 				class="tab__button"
 				:class="{
-					'tab__button--active': currentSelection === 'Trucks',
+					'tab__button--active': currentSelection === 'trucks',
 				}"
-				@click="changeView('Trucks')"
+				@click="changeView('trucks')"
 			>
 				<i class="material-symbols-outlined">local_shipping</i>Trucks
 			</button>
 			<button
 				class="tab__button"
 				:class="{
-					'tab__button--active': currentSelection === 'Trailers',
+					'tab__button--active': currentSelection === 'trailers',
 				}"
-				@click="changeView('Trailers')"
+				@click="changeView('trailers')"
 			>
 				<i class="material-symbols-outlined">rv_hookup</i>Trailers
 			</button>
@@ -47,8 +47,8 @@
 					: filteredUnits"
 				:key="unit.id"
 			>
-				<p>{{ unit.Name }}</p>
-				<p>{{ unit.Type }}</p>
+				<p>{{ unit.name }}</p>
+				<p>{{ unit.type }}</p>
 			</li>
 		</div>
 	</div>
@@ -60,7 +60,7 @@ import modalComponent from "./ModalComponent.vue";
 export default {
 	data() {
 		return {
-			currentSelection: "All",
+			currentSelection: "all",
 			unitSelection: [],
 			searchResults: [],
             modalState: false
@@ -74,6 +74,10 @@ export default {
 		searchData(data) {
 			this.searchResults = data;
 		},
+
+        appendData (data) {
+            this.units.push(data)
+        }
 	},
 
 	props: {
@@ -87,10 +91,10 @@ export default {
 
 	computed: {
 		filteredUnits() {
-			if (this.currentSelection == "Trucks") {
-				return this.units.filter((unit) => unit.Type === "Truck");
-			} else if (this.currentSelection == "Trailers") {
-				return this.units.filter((unit) => unit.Type === "Trailer");
+			if (this.currentSelection == "trucks") {
+				return this.units.filter((unit) => unit.type === "truck");
+			} else if (this.currentSelection == "trailers") {
+				return this.units.filter((unit) => unit.type === "trailer");
 			} else {
 				return this.units;
 			}
